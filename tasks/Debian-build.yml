@@ -12,6 +12,7 @@
     owner=root
     group=root
     mode=0644
+    timeout={{emacs_build_timeout_seconds}}
 
 - name: unarchiving...
   unarchive: >
