@@ -1,15 +1,8 @@
 ---
 emacs_build_os_pkgs:
-  - libXpm-devel
-  - libjpeg-turbo-devel
-  - openjpeg-devel
-  - openjpeg2-devel
-  - turbojpeg-devel
-  - giflib-devel
-  - libtiff-devel
-  - gnutls-devel
-  - libxml2-devel
-  - GConf2-devel
-  - dbus-devel
-  - wxGTK-devel
-  - gtk3-devel
+  - autoconf
+  - automake
+  - texinfo
+  - ncurses-devel
+  - gcc
+  - make

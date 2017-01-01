@@ -39,7 +39,7 @@
 - name: configuring...
   become: yes
   become_user: root
-  command: ./configure
+  command: ./configure --with-x=no
   args:
     chdir: /opt/{{emacs_name}}
     creates: /opt/{{emacs_name}}/Makefile
