@@ -1,20 +1,26 @@
 ---
 - name: build-essential....
+  become: yes
+  become_user: root
   package: name=build-essential state=present
 
 - name: emacs24 build-deps
+  become: yes
+  become_user: root
   package: name=emacs24 state=build-dep
 
 - name: downloading...
+  become: yes
+  become_user: root
   get_url: >
     url={{emacs_build_url}}
     dest=/tmp/{{emacs_build_tgz}}
-    owner=root
-    group=root
     mode=0644
     timeout={{emacs_build_timeout_seconds}}
 
 - name: unarchiving...
+  become: yes
+  become_user: root
   unarchive: >
     copy=no
     src=/tmp/{{emacs_build_tgz}}
@@ -22,29 +28,25 @@
     creates=/opt/{{emacs_name}}
 
 - name: configuring...
+  become: yes
+  become_user: root
   command: ./configure
   args:
     chdir: /opt/{{emacs_name}}
     creates: /opt/{{emacs_name}}/Makefile
 
 - name: building...
+  become: yes
+  become_user: root
   command: make
   args:
     chdir: /opt/{{emacs_name}}
     creates: /opt/{{emacs_name}}/src/emacs
 
 - name: installing...
+  become: yes
+  become_user: root
   command: make install
   args:
     chdir: /opt/{{emacs_name}}
     creates: /usr/local/bin/emacs
-
-- name: install emacs modes/settings
-  copy: dest=/usr/local/share/emacs/{{emacs_build_ver}}/site-lisp/{{item}} src={{item}}
-  with_items:
-    - 49myemacs.el
-    - 50melpa.el
-    - 50mycpp.el
-    - 50python.el
-
-
