@@ -1,2 +1,15 @@
 ---
-emacs_site_d : '/usr/share/emacs/site-lisp/site-start.d/'
+emacs_build_os_pkgs:
+  - libXpm-devel
+  - libjpeg-turbo-devel
+  - openjpeg-devel
+  - openjpeg2-devel
+  - turbojpeg-devel
+  - giflib-devel
+  - libtiff-devel
+  - gnutls-devel
+  - libxml2-devel
+  - GConf2-devel
+  - dbus-devel
+  - wxGTK-devel
+  - gtk3-devel

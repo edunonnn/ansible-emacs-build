@@ -1,4 +1,61 @@
 ---
-- name: Debian-build...
+- name: resolve platform specific vars
+  include_vars: "{{item}}"
+  with_first_found:
+    - "{{ansible_distribution}}-{{ansible_distribution_release}}.yml"
+    - "{{ansible_distribution}}.yml"
+    - "{{ansible_os_family}}.yml"
+
+- name: os pkgs....
+  become: yes
+  become_user: root
+  with_items: '{{emacs_build_os_pkgs}}'
+  package: name={{item}} state=present
+  
+- name: emacs24 build-deps...
   when: ansible_os_family == 'Debian'
-  include: Debian-build.yml
+  become: yes
+  become_user: root
+  apt: name=emacs24 state=build-dep
+
+- name: downloading...
+  become: yes
+  become_user: root
+  get_url: >
+    url={{emacs_build_url}}
+    dest=/tmp/{{emacs_build_tgz}}
+    timeout={{emacs_build_timeout_seconds}}
+    mode=0644
+
+- name: unarchiving...
+  become: yes
+  become_user: root
+  unarchive: >
+    copy=no
+    src=/tmp/{{emacs_build_tgz}}
+    dest=/opt
+    creates=/opt/{{emacs_name}}
+
+- name: configuring...
+  become: yes
+  become_user: root
+  command: ./configure
+  args:
+    chdir: /opt/{{emacs_name}}
+    creates: /opt/{{emacs_name}}/Makefile
+
+- name: building...
+  become: yes
+  become_user: root
+  command: make
+  args:
+    chdir: /opt/{{emacs_name}}
+    creates: /opt/{{emacs_name}}/src/emacs
+
+- name: installing...
+  become: yes
+  become_user: root
+  command: make install
+  args:
+    chdir: /opt/{{emacs_name}}
+    creates: /usr/local/bin/emacs
