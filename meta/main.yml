@@ -16,5 +16,9 @@ galaxy_info:
     - editors
     - emacs
 
-dependencies: []
+dependencies:
+  - role: andrewrothstein.unarchive-deps
+    version: v1.0.8
+  - role: andrewrothstein.gcc-toolbox
+    version: v1.0.5
   
