@@ -1,17 +1,27 @@
 ---
 galaxy_info:
   author: Andrew Rothstein
-  description: emacs builder + a bunch of emacs packages
+  description: builds and install emacs from sources
   company: BlackRock
   license:
     - MIT
   min_ansible_version: 2.0
   platforms:
+    - name: EL
+      versions:
+        - 7
+    - name: Fedora
+      versions:
+        - 23
+        - 24
+        - 25
     - name: Ubuntu
       versions:
         - trusty
         - xenial
-
+    - name: Debian
+      versions:
+        - jessie
   galaxy_tags:
     - editors
     - emacs
