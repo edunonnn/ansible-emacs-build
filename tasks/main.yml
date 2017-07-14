@@ -31,7 +31,7 @@
   become: yes
   become_user: root
   unarchive:
-    copy: no
+    remote_src: no
     src: /tmp/{{emacs_build_tgz}}
     dest: '{{emacs_build_parent_src_dir}}'
     creates: '{{emacs_build_src_dir}}'
