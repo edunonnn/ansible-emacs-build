@@ -19,8 +19,6 @@
     state: present
   
 - name: downloading...
-  become: yes
-  become_user: root
   get_url:
     url: '{{emacs_build_url}}'
     dest: /tmp/{{emacs_build_tgz}}
@@ -28,8 +26,6 @@
     mode: 0644
 
 - name: unarchiving...
-  become: yes
-  become_user: root
   unarchive:
     remote_src: yes
     src: /tmp/{{emacs_build_tgz}}
@@ -37,16 +33,12 @@
     creates: '{{emacs_build_src_dir}}'
 
 - name: configuring...
-  become: yes
-  become_user: root
-  command: ./configure --with-x=no
+  command: ./configure --with-x=no --prefix='{{emacs_install_dir}}'
   args:
     chdir: '{{emacs_build_src_dir}}'
     creates: '{{emacs_build_src_dir}}/Makefile'
 
 - name: building...
-  become: yes
-  become_user: root
   command: make
   args:
     chdir: '{{emacs_build_src_dir}}'
@@ -58,11 +50,9 @@
   command: make install
   args:
     chdir: '{{emacs_build_src_dir}}'
-    creates: /usr/local/bin/emacs
+    creates: '{{emacs_install_dir}}/bin/emacs'
 
 - name: cleanup...
-  become: yes
-  become_user: root
   file:
     path: '{{emacs_build_src_dir}}'
     state: absent
